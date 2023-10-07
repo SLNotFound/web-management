@@ -65,7 +65,11 @@ export default {
   },
   methods: {
     login() {
-      console.log('登录')
+      this.$refs.form.validate((isOK) => {
+        if (isOK) {
+          alert('校验通过')
+        }
+      })
     }
   }
 }

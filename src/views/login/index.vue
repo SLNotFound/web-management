@@ -20,12 +20,16 @@
           <el-form-item>
             <el-button style="width: 350px" type="primary" @click="login">登录</el-button>
           </el-form-item>
+          <el-form-item>
+            <el-button @click="testAjax">测试接口</el-button>
+          </el-form-item>
         </el-form>
       </el-card>
     </div>
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: 'Login',
   data() {
@@ -68,6 +72,16 @@ export default {
       this.$refs.form.validate((isOK) => {
         if (isOK) {
           this.$store.dispatch('user/login', this.loginForm)
+        }
+      })
+    },
+    testAjax() {
+      axios({
+        url: '/api/sys/login',
+        method: 'post',
+        data: {
+          mobile: '13912345678',
+          password: '123456'
         }
       })
     }

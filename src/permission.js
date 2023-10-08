@@ -26,3 +26,10 @@ router.beforeEach(async(to, from, next) => {
     }
   }
 })
+
+/**
+ * 后置守卫
+ */
+router.afterEach(() => {
+  nprogress.done()
+})

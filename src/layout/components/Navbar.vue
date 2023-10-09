@@ -32,6 +32,24 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
+    <el-dialog width="500px" title="修改密码" :visible.sync="showDialog">
+      <el-form ref="passForm" label-width="120px" :model="passForm" :rules="rules">
+        <el-form-item label="旧密码" prop="oldPassword">
+          <el-input v-model="passForm.oldPassword" show-password size="small" />
+        </el-form-item>
+        <el-form-item label="新密码" prop="newPassword">
+          <el-input v-model="passForm.newPassword" show-password size="small" />
+        </el-form-item>
+        <el-form-item label="重复密码" prop="confirmPassword">
+          <el-input v-model="passForm.confirmPassword" show-password size="small" />
+        </el-form-item>
+        <el-form-item>
+          <el-button size="mini" type="primary">确认修改</el-button>
+          <el-button size="mini">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,7 +65,31 @@ export default {
   },
   data() {
     return {
-      showDialog: false
+      showDialog: false,
+      passForm: {
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      },
+      rules: {
+        oldPassword: [{ required: true, message: '旧密码不能为空', trigger: 'blur' }],
+        newPassword: [{ required: true, message: '新密码不能为空', trigger: 'blur' }, {
+          trigger: 'blur',
+          min: 6,
+          max: 16,
+          message: '新密码的长度为6~16位之间'
+        }],
+        confirmPassword: [{ required: true, message: '重复密码不能为空', trigger: 'blur' }, {
+          trigger: 'blur',
+          validator: (rule, value, callback) => {
+            if (this.passForm.newPassword === value) {
+              callback()
+            } else {
+              callback(new Error('两次密码输入不一致'))
+            }
+          }
+        }]
+      }
     }
   },
   computed: {

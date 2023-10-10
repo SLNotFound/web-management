@@ -8,7 +8,14 @@
         <el-input v-model="formData.code" placeholder="2-10个字符" style="width: 80%" size="mini" />
       </el-form-item>
       <el-form-item prop="managerId" label="部门负责人">
-        <el-select v-model="formData.managerId" placeholder="请选择负责人" style="width: 80%" size="mini" />
+        <el-select v-model="formData.managerId" placeholder="请选择负责人" style="width: 80%" size="mini">
+          <el-option
+            v-for="item in managerList"
+            :key="item.id"
+            :label="item.username"
+            :value="item.id"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item prop="introduce" label="部门介绍">
         <el-input v-model="formData.introduce" placeholder="1-100个字符" type="textarea" size="mini" :rows="4" style="width: 80%" />
@@ -27,7 +34,7 @@
 </template>
 
 <script>
-import { getDepartment } from '@/api/department'
+import { getDepartment, getManagerList } from '@/api/department'
 export default {
   name: 'AddDept',
   props: {
@@ -45,6 +52,7 @@ export default {
         name: '',
         pid: ''
       },
+      managerList: [],
       rules: {
         code: [{ required: true, message: '部门编码不能为空', trigger: 'blur' },
           {
@@ -83,9 +91,15 @@ export default {
       }
     }
   },
+  created() {
+    this.getManagerList()
+  },
   methods: {
     close() {
       this.$emit('update:showDialog', false)
+    },
+    async getManagerList() {
+      this.managerList = await getManagerList()
     }
   }
 }

@@ -24,23 +24,26 @@
 </template>
 
 <script>
+import { getDepartment } from '@/api/department'
+import { transListToTreeData } from '@/utils'
 export default {
   name: 'Department',
   data() {
     return {
-      depts: [{
-        name: '天下第一',
-        managerName: '管理员',
-        children: [
-          { name: '总经办', managerName: '张三' },
-          { name: '行政中心', managerName: '李四' },
-          { name: '财务部', managerName: '王五' }
-        ]
-      }],
+      depts: [],
       defaultProps: {
         label: 'name',
         children: 'children'
       }
+    }
+  },
+  created() {
+    this.getDepartment()
+  },
+  methods: {
+    async getDepartment() {
+      const result = await getDepartment()
+      this.depts = transListToTreeData(result, 0)
     }
   }
 }
@@ -54,6 +57,6 @@ export default {
 .tree-manager {
   width: 50px;
   display: inline-block;
-  margin: 10px;
+  margin: 30px;
 }
 </style>

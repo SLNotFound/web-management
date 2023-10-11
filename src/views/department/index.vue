@@ -7,7 +7,7 @@
             <el-col>{{ data.name }}</el-col>
             <el-col :span="4">
               <span class="tree-manager">{{ data.managerName }}</span>
-              <el-dropdown @command="operateDept">
+              <el-dropdown @command="operateDept($event, data.id)">
                 <span class="el-dropdown-link">操作<i class="el-icon-arrow-down el-icon--right" /></span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="add">添加子部门</el-dropdown-item>
@@ -19,7 +19,7 @@
           </el-row>
         </template>
       </el-tree>
-      <add-dept :show-dialog.sync="showDialog" />
+      <add-dept :current-node-id="currentNodeId" :show-dialog.sync="showDialog" />
     </div>
   </div>
 </template>
@@ -40,7 +40,8 @@ export default {
         label: 'name',
         children: 'children'
       },
-      showDialog: false
+      showDialog: false,
+      currentNodeId: null
     }
   },
   created() {
@@ -51,9 +52,10 @@ export default {
       const result = await getDepartment()
       this.depts = transListToTreeData(result, 0)
     },
-    operateDept(type) {
+    operateDept(type, id) {
       if (type === 'add') {
         this.showDialog = true
+        this.currentNodeId = id
       }
     }
   }

@@ -19,7 +19,7 @@
           </el-row>
         </template>
       </el-tree>
-      <add-dept :current-node-id="currentNodeId" :show-dialog.sync="showDialog" @updateDepartment="getDepartment" />
+      <add-dept ref="addDept" :current-node-id="currentNodeId" :show-dialog.sync="showDialog" @updateDepartment="getDepartment" />
     </div>
   </div>
 </template>
@@ -56,6 +56,12 @@ export default {
       if (type === 'add') {
         this.showDialog = true
         this.currentNodeId = id
+      } else if (type === 'edit') {
+        this.showDialog = true
+        this.currentNodeId = id
+        this.$nextTick(() => {
+          this.$refs.addDept.getDepartmentDetail()
+        })
       }
     }
   }

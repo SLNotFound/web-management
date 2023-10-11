@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { addDepartment, getDepartment, getManagerList } from '@/api/department'
+import { addDepartment, getDepartment, getManagerList, getDepartmentDetail } from '@/api/department'
 export default {
   name: 'AddDept',
   props: {
@@ -115,6 +115,9 @@ export default {
           this.close()
         }
       })
+    },
+    async getDepartmentDetail() {
+      this.formData = await getDepartmentDetail(this.currentNodeId)
     }
   }
 }

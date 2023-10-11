@@ -24,7 +24,7 @@
         <!-- 按钮 -->
         <el-row type="flex" justify="center">
           <el-col :span="12">
-            <el-button size="mini" type="primary">确定</el-button>
+            <el-button size="mini" type="primary" @click="btnOK">确定</el-button>
             <el-button size="mini">取消</el-button>
           </el-col>
         </el-row>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { getDepartment, getManagerList } from '@/api/department'
+import { addDepartment, getDepartment, getManagerList } from '@/api/department'
 export default {
   name: 'AddDept',
   props: {
@@ -100,10 +100,21 @@ export default {
   },
   methods: {
     close() {
+      this.$refs.addDept.resetFields()
       this.$emit('update:showDialog', false)
     },
     async getManagerList() {
       this.managerList = await getManagerList()
+    },
+    btnOK() {
+      this.$refs.addDept.validate(async isOK => {
+        if (isOK) {
+          await addDepartment({ ...this.formData, pid: this.currentNodeId })
+          this.$emit('updateDepartment')
+          this.$message.success('新增部门成功')
+          this.close()
+        }
+      })
     }
   }
 }

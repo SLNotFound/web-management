@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增部门" :visible="showDialog" @close="close">
+  <el-dialog :title="showTitle" :visible="showDialog" @close="close">
     <el-form ref="addDept" :model="formData" :rules="rules" label-width="120px">
       <el-form-item prop="name" label="部门名称">
         <el-input v-model="formData.name" placeholder="2-10个字符" style="width: 80%" size="mini" />
@@ -25,7 +25,7 @@
         <el-row type="flex" justify="center">
           <el-col :span="12">
             <el-button size="mini" type="primary" @click="btnOK">确定</el-button>
-            <el-button size="mini">取消</el-button>
+            <el-button size="mini" @click="close">取消</el-button>
           </el-col>
         </el-row>
       </el-form-item>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { addDepartment, getDepartment, getManagerList, getDepartmentDetail } from '@/api/department'
+import { addDepartment, getDepartment, getManagerList, getDepartmentDetail, updateDepartment } from '@/api/department'
 export default {
   name: 'AddDept',
   props: {
@@ -103,11 +103,23 @@ export default {
       }
     }
   },
+  computed: {
+    showTitle() {
+      return this.formData.id ? '编辑部门' : '新增部门'
+    }
+  },
   created() {
     this.getManagerList()
   },
   methods: {
     close() {
+      this.formData = {
+        code: '',
+        introduce: '',
+        managerId: '',
+        name: '',
+        pid: ''
+      }
       this.$refs.addDept.resetFields()
       this.$emit('update:showDialog', false)
     },
@@ -117,9 +129,15 @@ export default {
     btnOK() {
       this.$refs.addDept.validate(async isOK => {
         if (isOK) {
-          await addDepartment({ ...this.formData, pid: this.currentNodeId })
+          let msg = '新增'
+          if (this.formData.id) {
+            msg = '更新'
+            await updateDepartment(this.formData)
+          } else {
+            await addDepartment({ ...this.formData, pid: this.currentNodeId })
+          }
           this.$emit('updateDepartment')
-          this.$message.success('新增部门成功')
+          this.$message.success(`${msg}部门成功`)
           this.close()
         }
       })

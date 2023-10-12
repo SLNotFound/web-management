@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="app-container">
-      <el-tree :expand-on-click-node="false" :data="depts" :props="defaultProps">
+      <el-tree :expand-on-click-node="false" default-expand-all :data="depts" :props="defaultProps">
         <template v-slot="{ data }">
           <el-row style="width:100%;height:40px" type="flex" justify="space-between" align="middle">
             <el-col>{{ data.name }}</el-col>

@@ -42,7 +42,7 @@ export default {
       list: [],
       pageParams: {
         page: 1,
-        pagesize: 5,
+        pagesize: 10,
         total: 0
       }
     }

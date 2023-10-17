@@ -53,7 +53,10 @@
         <el-row style="height: 60px" align="middle" type="flex" justify="end">
           <el-pagination
             layout="total,prev, pager, next"
-            :total="1000"
+            :total="total"
+            :current-page="queryParams.page"
+            :page-size="queryParams.pagesize"
+            @current-change="changePage"
           />
         </el-row>
       </div>
@@ -76,8 +79,11 @@ export default {
         children: 'children'
       },
       queryParams: {
-        departmentId: null
-      }
+        departmentId: null,
+        page: 1,
+        pagesize: 10
+      },
+      total: 0
     }
   },
   created() {
@@ -94,11 +100,17 @@ export default {
       this.getEmployeeList()
     },
     async getEmployeeList() {
-      const { rows } = await getEmployeeList(this.queryParams)
+      const { rows, total } = await getEmployeeList(this.queryParams)
       this.list = rows
+      this.total = total
     },
     selectNode(node) {
       this.queryParams.departmentId = node.id
+      this.queryParams.page = 1
+      this.getEmployeeList()
+    },
+    changePage(newPage) {
+      this.queryParams.page = newPage
       this.getEmployeeList()
     }
   }

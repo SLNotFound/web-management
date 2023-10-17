@@ -6,3 +6,10 @@ export function getEmployeeList(params) {
     params
   })
 }
+
+export function exportEmployee() {
+  return request({
+    url: '/sys/user/export',
+    responseType: 'blob'
+  })
+}

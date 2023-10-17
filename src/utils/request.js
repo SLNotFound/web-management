@@ -21,6 +21,8 @@ service.interceptors.request.use((config) => {
 
 // 响应拦截器
 service.interceptors.response.use((response) => {
+  // 判断是不是Blob
+  if (response.data instanceof Blob) return response.data
   const { data, message, success } = response.data
   if (success) {
     return data

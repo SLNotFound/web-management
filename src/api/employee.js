@@ -20,3 +20,11 @@ export function getExportTemplate() {
     responseType: 'blob'
   })
 }
+
+export function uploadExcel(data) {
+  return request({
+    url: '/sys/user/import',
+    method: 'post',
+    data
+  })
+}

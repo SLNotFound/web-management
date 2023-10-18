@@ -50,7 +50,6 @@ export default {
       this.$refs['excel-upload-input'].click()
     },
     async uploadChange(event) {
-      console.log(event.target.files)
       const files = event.target.files
       if (files.length > 0) {
         const data = new FormData()

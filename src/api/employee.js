@@ -28,3 +28,10 @@ export function uploadExcel(data) {
     data
   })
 }
+
+export function delEmployee(id) {
+  return request({
+    method: 'delete',
+    url: `/sys/user/${id}`
+  })
+}

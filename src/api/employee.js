@@ -13,3 +13,10 @@ export function exportEmployee() {
     responseType: 'blob'
   })
 }
+
+export function getExportTemplate() {
+  return request({
+    url: '/sys/user/import/template',
+    responseType: 'blob'
+  })
+}

@@ -123,9 +123,10 @@ export function transListToTreeData(list, rootValue) {
   const arr = []
   list.forEach(item => {
     if (item.pid === rootValue) {
-      const children = transListToTreeData(list, item.id)
-      item.children = children
+      // 找到匹配的节点
       arr.push(item)
+      const children = transListToTreeData(list, item.id)
+      if (children.length) { item.children = children }
     }
   })
   return arr

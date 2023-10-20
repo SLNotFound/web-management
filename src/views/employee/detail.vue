@@ -66,7 +66,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="转正时间">
+              <el-form-item label="转正时间" prop="correctionTime">
                 <el-date-picker
                   v-model="userInfo.correctionTime"
                   size="mini"

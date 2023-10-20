@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { addEmployee } from '@/api/employee'
+import { addEmployee, getEmployeeDetail } from '@/api/employee'
 import SelectTree from './components/select-tree.vue'
 
 export default {
@@ -117,7 +117,7 @@ export default {
       },
       rules: {
         username: [{ required: true, message: '请输入姓名', trigger: 'blur' }, {
-          min: 1, max: 4, message: '姓名为1-4位'
+          min: 1, max: 6, message: '姓名为1-6位'
         }],
         mobile: [{ required: true, message: '请输入手机号', trigger: 'blur' }, {
         //   pattern 正则表达式
@@ -142,6 +142,9 @@ export default {
       }
     }
   },
+  created() {
+    this.$route.params.id && this.getEmployeeDetail()
+  },
   methods: {
     saveData() {
       this.$refs.userForm.validate(async isOK => {
@@ -151,6 +154,9 @@ export default {
           this.$router.push('/employee')
         }
       })
+    },
+    async getEmployeeDetail() {
+      this.userInfo = await getEmployeeDetail(this.$route.params.id)
     }
   }
 }

@@ -43,3 +43,9 @@ export function addEmployee(data) {
     data
   })
 }
+
+export function getEmployeeDetail(id) {
+  return request({
+    url: `/sys/user/${id}`
+  })
+}
